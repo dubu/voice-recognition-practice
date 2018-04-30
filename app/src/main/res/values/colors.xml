@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorAccent">@color/bg_gradient_start</color>
+    <color name="colorPrimary">#fff</color>
+    <color name="colorPrimaryDark">#8239f7</color>
+    <color name="white">#ffffff</color>
+    <color name="bg_gradient_start">#31244e</color>
+    <color name="bg_gradient_end">#6b394c</color>
+</resources>
