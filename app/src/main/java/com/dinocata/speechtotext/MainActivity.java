@@ -117,17 +117,17 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         VoiceCommand command = VoiceCommand.getCommandByKeywords(matches);
         if (command != null) {
             switch (command) {
-                case START_MEASUREMENT:
-                    txtSpeechInput.setText(R.string.result_start_measurement);
+                case MEASURE:
+                    txtSpeechInput.setText(R.string.result_measure);
                     break;
-                case SHOW_LAST_MEASUREMENT:
-                    txtSpeechInput.setText(R.string.result_show_last_measurement);
+                case BEGIN:
+                    txtSpeechInput.setText(R.string.result_begin);
                     break;
-                case MEASUREMENT_RD_545:
-                    txtSpeechInput.setText(R.string.result_start_rd_545);
+                case START:
+                    txtSpeechInput.setText(R.string.result_start);
                     break;
-                case MEASUREMENT_RD_942:
-                    txtSpeechInput.setText(R.string.result_start_rd_942);
+                case SHOW:
+                    txtSpeechInput.setText(R.string.result_show);
                     break;
             }
 
@@ -184,22 +184,39 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     }
 
     public enum VoiceCommand {
-        MEASUREMENT_RD_545(
-                new int[] {R.string.rd_545},
-                null,
-                new int[] {R.string.start, R.string.begin}),
-        MEASUREMENT_RD_942(
-                new int[] {R.string.rd_942},
-                null,
-                new int[] {R.string.start, R.string.begin}),
-        SHOW_LAST_MEASUREMENT(
+//        START(
+//                new int[] {R.string.rd_545},
+//                null,
+//                new int[] {R.string.start, R.string.begin}),
+//        SHOW(
+//                new int[] {R.string.rd_942},
+//                null,
+//                new int[] {R.string.start, R.string.begin}),
+//        BEGIN(
+//                new int[] {R.string.measurement},
+//                new int[] {R.string.last, R.string.previous},
+//                new int[] {R.string.show, R.string.display}),
+//        MEASURE(
+//                new int[] {R.string.measurement, R.string.measuring},
+//                null,
+//                new int[] {R.string.start, R.string.begin});
+
+        START(
+                new int[] {R.string.start},
+                new int[] {R.string.start},
+                new int[] {R.string.start}),
+        SHOW(
+                new int[] {R.string.show},
+                new int[] {R.string.show},
+                new int[] {R.string.show}),
+        BEGIN(
+                new int[] {R.string.begin},
+                new int[] {R.string.begin},
+                new int[] {R.string.begin}),
+        MEASURE(
                 new int[] {R.string.measurement},
-                new int[] {R.string.last, R.string.previous},
-                new int[] {R.string.show, R.string.display}),
-        START_MEASUREMENT(
-                new int[] {R.string.measurement, R.string.measuring},
-                null,
-                new int[] {R.string.start, R.string.begin});
+                new int[] {R.string.measurement},
+                new int[] {R.string.measurement});
 
         private int[] keywordNounResources;
         private String[] keywordNouns;
@@ -210,7 +227,7 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         private int[] keywordVerbResources;
         private String[] keywordVerbs;
 
-        VoiceCommand(@NonNull int[] keywordNounResources, int[] keywordAdjectiveResources, @NonNull int[] keywordVerbResources) {
+        VoiceCommand(@NonNull int[] keywordNounResources, int[] keywordAdjectiveResources, int[] keywordVerbResources) {
             this.keywordNounResources = keywordNounResources;
             this.keywordAdjectiveResources = keywordAdjectiveResources;
             this.keywordVerbResources = keywordVerbResources;
@@ -255,10 +272,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             for (String keyword : keywords) {
                 for (VoiceCommand voiceCommand : VoiceCommand.values()) {
                     String lowerCase = keyword.toLowerCase();
-                    if (containsAnyWord(lowerCase, voiceCommand.keywordVerbs) &&
-                            containsAnyWord(lowerCase, voiceCommand.keywordNouns) &&
-                            containsAnyWord(lowerCase, voiceCommand.keywordAdjectives)) {
-                        return voiceCommand;
+//                    if (containsAnyWord(lowerCase, voiceCommand.keywordVerbs) &&
+//                            containsAnyWord(lowerCase, voiceCommand.keywordNouns) &&
+//                            containsAnyWord(lowerCase, voiceCommand.keywordAdjectives)) {
+//                        return voiceCommand;
+                        if (containsAnyWord(lowerCase, voiceCommand.keywordNouns)) {
+                            return voiceCommand;
                     }
                 }
             }

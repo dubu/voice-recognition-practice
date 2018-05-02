@@ -25,5 +25,9 @@
     <string name="result_start_rd_545">Starting measurement on RD-545 …</string>
     <string name="result_start_rd_942">Starting measurement on RD-942 …</string>
     <string name="result_not_recognized">Command not recognized. Please try again.</string>
+    <string name="result_measure">mesure mesure</string>
+    <string name="result_begin">begin begin ?</string>
+    <string name="result_start">start start ?</string>
+    <string name="result_show">show show ?</string>
 
 </resources>
