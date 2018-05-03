@@ -4,14 +4,15 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -30,6 +31,12 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private final int MAX_RESULTS = 5;
 
     private SpeechRecognizer speechRecognizer;
+
+
+    TextToSpeech tts;
+    String text;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +89,29 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         } else {
             promptSpeechInput();
         }
+
+
+
+        // set tts
+        tts=new TextToSpeech(MainActivity.this, new TextToSpeech.OnInitListener() {
+
+            @Override
+            public void onInit(int status) {
+                // TODO Auto-generated method stub
+                if(status == TextToSpeech.SUCCESS){
+                    int result=tts.setLanguage(Locale.US);
+                    if(result==TextToSpeech.LANG_MISSING_DATA ||
+                            result==TextToSpeech.LANG_NOT_SUPPORTED){
+                        Log.e("error", "This Language is not supported");
+                    }
+                    else{
+                        //ConvertTextToSpeech();
+                    }
+                }
+                else
+                    Log.e("error", "Initilization Failed!");
+            }
+        });
     }
 
     private void showToast(String message) {
@@ -116,25 +146,52 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     private void processResult(ArrayList<String> matches) {
         VoiceCommand command = VoiceCommand.getCommandByKeywords(matches);
         if (command != null) {
-            switch (command) {
-                case MEASURE:
-                    txtSpeechInput.setText(R.string.result_measure);
-                    break;
-                case BEGIN:
-                    txtSpeechInput.setText(R.string.result_begin);
-                    break;
-                case START:
-                    txtSpeechInput.setText(R.string.result_start);
-                    break;
-                case SHOW:
-                    txtSpeechInput.setText(R.string.result_show);
-                    break;
+            if(Locale.getDefault().getLanguage().equals("en")){
+                // en
+                switch (command) {
+                    case MEASURE:
+                        txtSpeechInput.setText(R.string.result_measure);
+                        break;
+                    case BEGIN:
+                        txtSpeechInput.setText(R.string.result_begin);
+                        break;
+                    case START:
+                        txtSpeechInput.setText(R.string.result_start);
+                        break;
+                    case SHOW:
+                        txtSpeechInput.setText(R.string.result_show);
+                        break;
+                }
+            }else if(Locale.getDefault().getLanguage().equals("ko")){
+                //ko
+                switch (command) {
+                    case MEASURE:
+                        txtSpeechInput.setText(R.string.result_left_ko);
+                        break;
+                    case BEGIN:
+                        txtSpeechInput.setText(R.string.result_right_ko);
+                        break;
+                    case START:
+                        txtSpeechInput.setText(R.string.result_forward_ko);
+                        break;
+                    case SHOW:
+                        txtSpeechInput.setText(R.string.result_back_ko);
+                        break;
+                }
+
             }
+            ConvertTextToSpeech();
 
         } else {
-            txtSpeechInput.setText(R.string.result_not_recognized);
+//            txtSpeechInput.setText(R.string.result_not_recognized);
             promptSpeechInput();
         }
+
+        // debug speechRecognizer
+        for (String match : matches) {
+            Log.e("find", match);
+        }
+
     }
 
     @Override
@@ -181,6 +238,17 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
     @Override
     public void onEvent(int i, Bundle bundle) {
 
+    }
+
+    private void ConvertTextToSpeech() {
+        // TODO Auto-generated method stub
+        text = txtSpeechInput.getText().toString();
+        if(text==null||"".equals(text))
+        {
+            text = "Content not available";
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+        }else
+            tts.speak(text+"is saved", TextToSpeech.QUEUE_FLUSH, null);
     }
 
     public enum VoiceCommand {

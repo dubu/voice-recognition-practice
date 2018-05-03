@@ -29,5 +29,9 @@
     <string name="result_begin">begin begin ?</string>
     <string name="result_start">start start ?</string>
     <string name="result_show">show show ?</string>
+    <string name="result_left_ko">왼쪽</string>
+    <string name="result_right_ko">오른쪽</string>
+    <string name="result_forward_ko">앞으로</string>
+    <string name="result_back_ko">뒤로</string>
 
 </resources>
