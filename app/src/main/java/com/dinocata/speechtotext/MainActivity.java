@@ -165,16 +165,16 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
             }else if(Locale.getDefault().getLanguage().equals("ko")){
                 //ko
                 switch (command) {
-                    case MEASURE:
+                    case LEFT:
                         txtSpeechInput.setText(R.string.result_left_ko);
                         break;
-                    case BEGIN:
+                    case RIGHT:
                         txtSpeechInput.setText(R.string.result_right_ko);
                         break;
-                    case START:
+                    case FORWARD:
                         txtSpeechInput.setText(R.string.result_forward_ko);
                         break;
-                    case SHOW:
+                    case BACK:
                         txtSpeechInput.setText(R.string.result_back_ko);
                         break;
                 }
@@ -284,7 +284,24 @@ public class MainActivity extends AppCompatActivity implements RecognitionListen
         MEASURE(
                 new int[] {R.string.measurement},
                 new int[] {R.string.measurement},
-                new int[] {R.string.measurement});
+                new int[] {R.string.measurement}),
+
+        LEFT(
+                new int[] {R.string.left},
+                new int[] {R.string.left},
+                new int[] {R.string.left}),
+        RIGHT(
+                new int[] {R.string.right},
+                new int[] {R.string.right},
+                new int[] {R.string.right}),
+        FORWARD(
+                new int[] {R.string.forward},
+                new int[] {R.string.forward},
+                new int[] {R.string.forward}),
+        BACK(
+                new int[] {R.string.back},
+                new int[] {R.string.back},
+                new int[] {R.string.back});
 
         private int[] keywordNounResources;
         private String[] keywordNouns;
